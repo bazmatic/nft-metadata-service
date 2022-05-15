@@ -11,16 +11,16 @@ export class NftMetaDataService {
         return metadata;
     }
 
-    async getOwner(contractAddress: string, tokenId: string): Promise<[string]> {
+    async getOwner(contractAddress: string, tokenId: string): Promise<string> {
         const contract = await getErc721Contract(contractAddress, this.signer);
         const owner = await contract.functions.ownerOf(tokenId);
-        return owner;
+        return owner[0];
     }
 
     async getMetadata(contractAddress: string, tokenId: string): Promise<[string]> {
         const metadataUrl = await this.getMetadataUrl(contractAddress, tokenId);
         const metadata = await axios.get(metadataUrl[0]);
-        metadata.data.owner = (await this.getOwner(contractAddress, tokenId))[0];
+        metadata.data.owner = (await this.getOwner(contractAddress, tokenId));
         return metadata.data;
     }
 }
