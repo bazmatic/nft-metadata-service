@@ -11,7 +11,8 @@ export default async function handler(
 ) {
     const signer = getAdminSigner();
     const nftMetaDataService = new NftMetaDataService(signer);
-    const metadata = await nftMetaDataService.getMetadata(req.query.address as string, req.query.id as string)
-
+    const contractAddress = req.query.address as string;
+    const tokenId = req.query.id as string;
+    const metadata = await nftMetaDataService.getMetadata(contractAddress, tokenId);
     res.status(200).json(metadata)
 }
