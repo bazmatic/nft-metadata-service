@@ -9,10 +9,20 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    const signer = getAdminSigner();
-    const nftMetaDataService = new NftMetaDataService(signer);
-    const contractAddress = req.query.address as string;
-    const tokenId = req.query.id as string;
-    const metadata = await nftMetaDataService.getMetadata(contractAddress, tokenId);
-    res.status(200).json(metadata)
+    try {
+        const signer = getAdminSigner();
+        const nftMetaDataService = new NftMetaDataService(signer);
+        const contractAddress = req.query.address as string;
+        const tokenId = req.query.id as string;
+        const metadata = await nftMetaDataService.getMetadata(contractAddress, tokenId);
+        res.status(200).json(metadata)
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message })
+        }
+        else {
+            res.status(500).json({ error: error })
+        }
+    }
 }

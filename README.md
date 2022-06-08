@@ -1,8 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## NFT Metadata Service
 
+This is a web service that will return the metadata and current owner for any NFT whose metadata is accessible via HTTP. Metadata hosted on IPFS is not yet supported.
 ## Getting Started
 
-First, run the development server:
+### Configuration
+Create a `.env` file to the root and add values to it:
+```
+RPC_URL=URL to Ethereum node
+CHAIN_ID=Chain ID for the network
+PRIVATE_KEY_MNEMONIC=twelve word mnemonic for your private key which you certainly wrote down
+```
+
+To run the development server:
 
 ```bash
 npm run dev
@@ -10,25 +19,31 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Requesting NFT Metadata
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```
+curl http://localhost:3000/api/nft/{contract address}/{token ID}
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+The data is returned any metadata serving the URI for the specified token, along with the address of the current token owner, eg:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```
+{
+    "name":"Grimdog #101",
+    "description":"Grimdogs are dogs and they are quite grim.",
+    "image":"https://www.grimdogsexample.com/30290ai.png",
+    "edition":1,
+    "attributes":[
+        {"trait_type":"background","value":"leafy"},
+        {"trait_type":"body","value":"hairy"},
+        {"trait_type":"eyes","value":"bulbous"},
+        {"trait_type":"teeth","value":"blunt"},
+        {"trait_type":"head","value":"fluffy"}
+    ],
+    "owner":"0xCF368E3e5842C8B78ff13bF07445da255A124249"
+}
+```
 
-## Learn More
+## Deploying
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is configured to run on Vercel (https://vercel.com/). Just fork the repo, register it on Vercel, and push to deploy!
