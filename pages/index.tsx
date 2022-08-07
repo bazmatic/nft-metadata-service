@@ -21,9 +21,15 @@ const Home: NextPage = () => {
         <p className={styles.description}>
           This is a web service for fetching NFT metadata. To request the metadata for an NFT, make a request to:
         </p>
-        <code className={styles.code}>http://[host]/api/nft/[contract address]/[token ID]</code>
+        <code className={styles.code}>http://[host]/api/nft/[network]/[contract address]/[token ID]</code>
         <p>
-          <a target="_blank" href="/api/nft/0xf36446105ff682999a442b003f2224bcb3d82067/22">For an example, click here</a>
+          The permitted values for <b>[network]</b> are: <b>mainnet</b>, <b>ropsten</b>, <b>rinkeby</b>, <b>kovan</b>.
+        </p>
+        <p>
+          The response will be a JSON object containing the metadata fields, plus an `owner` field containing the address of the owner of the NFT.
+        </p>
+        <p>
+          Any extra metadata fields will be
         </p>
       </main>
     </div>
