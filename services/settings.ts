@@ -12,6 +12,7 @@ export type Settings = {
 }
 
 export enum NetworkName {
+    Kovan = "kovan",
     Rinkeby = "rinkeby",
     Mainnet = "mainnet",
     Local = "local"
@@ -20,7 +21,7 @@ export enum NetworkName {
 export function getSettings(): Settings {
     const networks: NetworkConfig[] = [];
     Object.values(NetworkName).forEach((name: NetworkName) => {
-        const rpcUrl = process.env[`RPC_URL_${name}`]
+        const rpcUrl = process.env[`${name.toUpperCase()}_RPC_URL`]
         if (rpcUrl) {
             networks.push({
                 name,
