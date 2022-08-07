@@ -1,17 +1,37 @@
 
 import "dotenv/config"
 
+export type NetworkConfig = {
+    name: NetworkName,
+    rpcUrl: string,
+}
 export type Settings = {
-    RPC_URL: string;
-    CHAIN_ID: number;
-    PRIVATE_KEY_MNEMONIC: string;
+    networks: NetworkConfig[],
+    //CHAIN_ID: number;
+    mnemonic: string;
+}
+
+export enum NetworkName {
+    Rinkeby = "rinkeby",
+    Mainnet = "mainnet",
+    Local = "local"
 }
 
 export function getSettings(): Settings {
-    const settings: Settings = {
-        RPC_URL: process.env.RPC_URL ?? "",
-        CHAIN_ID: Number(process.env.CHAIN_ID ?? 0),
-        PRIVATE_KEY_MNEMONIC: process.env.PRIVATE_KEY_MNEMONIC ?? ""
-    };
-    return settings;
+    const networks: NetworkConfig[] = [];
+    Object.values(NetworkName).forEach((name: NetworkName) => {
+        const rpcUrl = process.env[`RPC_URL_${name}`]
+        if (rpcUrl) {
+            networks.push({
+                name,
+                rpcUrl: rpcUrl ?? "http://127.0.0.1:8545",
+            });
+        }
+    });
+
+    return {
+        networks,
+        mnemonic: process.env["PRIVATE_KEY_MNEMONIC"] ?? ""
+    }
 }
+    

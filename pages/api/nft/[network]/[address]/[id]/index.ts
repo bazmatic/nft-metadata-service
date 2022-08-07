@@ -2,15 +2,17 @@
 import { Contract } from '@ethersproject/contracts'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getAdminSigner } from '../../../../../services/chain/signers'
-import { NftMetaDataService } from '../../../../../services/nftMetadata'
+import { getAdminSigner } from '../../../../../../services/chain/signers';
+import { NftMetaDataService } from '../../../../../../services/nftMetadata';
+import { NetworkName } from '../../../../../../services/settings';
+
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
     try {
-        const signer = getAdminSigner();
+        const signer = getAdminSigner(req.query.network as NetworkName);
         const nftMetaDataService = new NftMetaDataService(signer);
         const contractAddress = req.query.address as string;
         const tokenId = req.query.id as string;

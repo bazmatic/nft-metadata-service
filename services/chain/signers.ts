@@ -1,8 +1,9 @@
 import { ethers } from 'ethers'
-import { getSettings } from '../settings'
+import { getSettings, NetworkName } from '../settings'
 
-export function getAdminSigner(): ethers.Signer {
+export function getAdminSigner(network: NetworkName): ethers.Signer {
     const settings = getSettings()
-    const signer = ethers.Wallet.fromMnemonic(settings.PRIVATE_KEY_MNEMONIC).connect(new ethers.providers.JsonRpcProvider(settings.RPC_URL))
+    const rpcUrl = settings.networks.find(n => n.name === network)?.rpcUrl
+    const signer = ethers.Wallet.fromMnemonic(settings.mnemonic).connect(new ethers.providers.JsonRpcProvider(rpcUrl))
     return signer
 }

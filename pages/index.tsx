@@ -21,7 +21,7 @@ const Home: NextPage = () => {
         <p className={styles.description}>
           This is a web service for fetching NFT metadata. To request the metadata for an NFT, make a request to:
         </p>
-        <code className={styles.code}>http://[host]:3000/api/nft/[contract address]/[token ID]</code>
+        <code className={styles.code}>http://[host]/api/nft/[contract address]/[token ID]</code>
         <p>
           <a target="_blank" href="/api/nft/0xf36446105ff682999a442b003f2224bcb3d82067/22">For an example, click here</a>
         </p>
