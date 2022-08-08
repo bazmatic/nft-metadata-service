@@ -14,6 +14,9 @@ export type Settings = {
 export enum NetworkName {
     Kovan = "kovan",
     Rinkeby = "rinkeby",
+    Ropsten = "ropsten",
+    Goerli = "goerli",
+    Polygon = "polygon",
     Mainnet = "mainnet",
     Local = "local"
 }
