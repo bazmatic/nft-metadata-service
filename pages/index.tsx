@@ -31,9 +31,6 @@ const Home: NextPage = () => {
             <li><b>timestamp</b> representing the time this data was fetched </li>
           </ul>
         </p>
-        <p>
-          Any extra metadata fields will be
-        </p>
       </main>
     </div>
   )
