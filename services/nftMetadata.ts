@@ -18,8 +18,13 @@ export class NftMetaDataService {
     }
 
     async getMetadata(contractAddress: string, tokenId: string): Promise<[string]> {
-        const metadataUrl = await this.getMetadataUrl(contractAddress, tokenId);
-        const metadata = await axios.get(metadataUrl[0]);
+        let [metadataUrl] = await this.getMetadataUrl(contractAddress, tokenId);
+        // Extract the protocol
+        const [protocol, ref] = metadataUrl.split("://");
+        if (protocol === "ipfs") {
+            metadataUrl = `https://ipfs.io/ipfs/${ref}`;   
+        }
+        const metadata = await axios.get(metadataUrl);
         metadata.data.owner = (await this.getOwner(contractAddress, tokenId));
         return metadata.data;
     }
