@@ -23,10 +23,14 @@ const Home: NextPage = () => {
         </p>
         <code className={styles.code}>http://[host]/api/nft/[network]/[contract address]/[token ID]</code>
         <p>
-          The permitted values for <b>[network]</b> are: <b>mainnet</b>, <b>ropsten</b>, <b>rinkeby</b>, <b>kovan</b>.
+          The permitted values for <b>[network]</b> are: <b>mainnet</b>, <b>ropsten</b>, <b>rinkeby</b>, <b>kovan</b>, <b>goerli</b>, <b>polygon</b>.
         </p>
         <p>
-          The response will be a JSON object containing the metadata fields, plus an `owner` field containing the address of the owner of the NFT.
+          The response will be a JSON object containing the metadata fields, plus:
+          <ul>
+            <li><b>owner</b> containing the address of the owner of the NFT</li>
+            <li><b>timestamp</b> representing the time this data was fetched </li>
+          </ul>
         </p>
         <p>
           Any extra metadata fields will be
