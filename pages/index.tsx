@@ -18,9 +18,13 @@ const Home: NextPage = () => {
         </h1>
 
         <p className={styles.description}>
-          This is a web service for fetching NFT metadata. To request the metadata for an NFT, make a request to:
+          This is a web service for fetching NFT metadata and images. To fetch the metadata for an NFT, make a request to:
         </p>
-        <code className={styles.code}>http://[host]/api/nft/[network]/[contract address]/[token ID]</code>
+        <code className={styles.code}>http://[host]/api/nft/[network]/[contract address]/metadata/[token ID]</code>
+        <p>
+          To fetch the image for an NFT, make a request to:
+        </p>
+        <code className={styles.code}>http://[host]/api/nft/[network]/[contract address]/image/[token ID]</code>
         <p>
           The permitted values for <b>[network]</b> are: <b>mainnet</b>, <b>ropsten</b>, <b>rinkeby</b>, <b>kovan</b>, <b>goerli</b>, <b>polygon</b>.
         </p>

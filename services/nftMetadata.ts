@@ -2,6 +2,22 @@ import { Signer } from "ethers";
 import axios from 'axios'
 import { getErc721Contract } from "./chain/prefabContractFactory";
 
+export type NftMetadaProperty = {
+    name: string,
+    value: string
+}
+
+export type NftMetadata = {
+    properties: NftMetadaProperty[],
+    image?: string
+    owner?: string,
+    timestamp?: number
+}
+
+export type NftImage = {
+    image: ArrayBuffer,
+    contentType: string
+}
 export class NftMetaDataService {
     constructor(private signer: Signer) {}
 
@@ -17,7 +33,7 @@ export class NftMetaDataService {
         return owner[0]
     }
 
-    async getMetadata(contractAddress: string, tokenId: string): Promise<[string]> {
+    async getMetadata(contractAddress: string, tokenId: string): Promise<NftMetadata> {
         let [metadataUrl] = await this.getMetadataUrl(contractAddress, tokenId)
         // Extract the protocol
         const [protocol, ref] = metadataUrl.split("://");
@@ -27,6 +43,31 @@ export class NftMetaDataService {
         const metadata = await axios.get(metadataUrl);
         metadata.data.owner = (await this.getOwner(contractAddress, tokenId))
         metadata.data.timestamp = Date.now()
-        return metadata.data
+        return metadata.data as NftMetadata
+    }
+
+    async getImage(contractAddress: string, tokenId: string): Promise<NftImage> {
+        const metadata = await this.getMetadata(contractAddress, tokenId)
+        let imageUrl: string;
+        if (metadata.image) {
+            imageUrl = metadata.image
+        } else {
+            const imageProperty = metadata.properties.find(p => p.name === 'image')
+            if (imageProperty) {
+                imageUrl = imageProperty.value
+            } else {
+                imageUrl = `https://defaultimage.com/image.png`
+            }
+        }
+        const [protocol, ref] = imageUrl.split("://");
+        if (protocol === "ipfs") {
+            imageUrl = `https://ipfs.io/ipfs/${ref}`
+        }
+        // Request image and return buffer
+        const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' })
+        // Get ContentType
+        const contentType = imageResponse.headers['content-type'];
+        return { image: imageResponse.data, contentType }
+
     }
 }
