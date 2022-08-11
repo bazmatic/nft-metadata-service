@@ -23,6 +23,7 @@ const Home: NextPage = () => {
         <p>
           To fetch the metadata for an NFT, make a request to:
         </p>
+        <a href="/api/nft/nft/mainnet/0xD6F75a20Aa64634743D40fAfa88473020302C530/metadata/5">Hello</a>
         <code className={styles.code}>http://[host]/api/nft/[network]/[contract address]/metadata/[token ID]</code>
         <p>
           To fetch the image for an NFT, make a request to:
