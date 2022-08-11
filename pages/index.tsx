@@ -1,9 +1,13 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
-const Home: NextPage = () => {
+
+type Props = { host: string | null };
+export const getServerSideProps: GetServerSideProps<Props> = async context => ({ props: { host: context.req.headers.host || null } });
+
+const Home: NextPage<Props> = ({host}) => {
   
   return (
     <div className={styles.container}>
@@ -25,11 +29,11 @@ const Home: NextPage = () => {
           To fetch the metadata for an NFT, make a request to:
         </p>
         <Link href="/api/nft/nft/mainnet/0xD6F75a20Aa64634743D40fAfa88473020302C530/metadata/5">Hello</Link>
-        <code className={styles.code}>http://[host]/api/nft/[network]/[contract address]/metadata/[token ID]</code>
+        <code className={styles.code}>http://{host}/api/nft/[network]/[contract address]/metadata/[token ID]</code>
         <p>
           To fetch the image for an NFT, make a request to:
         </p>
-        <code className={styles.code}>http://[host]/api/nft/[network]/[contract address]/image/[token ID]</code>
+        <code className={styles.code}>http://{host}/api/nft/[network]/[contract address]/image/[token ID]</code>
         <p>
           The permitted values for <b>[network]</b> are: <b>mainnet</b>, <b>ropsten</b>, <b>rinkeby</b>, <b>kovan</b>, <b>goerli</b>, <b>polygon</b>.
         </p>
