@@ -56,7 +56,7 @@ export class NftMetaDataService {
             if (imageProperty) {
                 imageUrl = imageProperty.value
             } else {
-                imageUrl = `https://defaultimage.com/image.png`
+                imageUrl = `https://cdn-icons-png.flaticon.com/512/6229/6229134.png`
             }
         }
         const [protocol, ref] = imageUrl.split("://");
